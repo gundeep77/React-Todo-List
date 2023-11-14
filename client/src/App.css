@@ -60,10 +60,14 @@ button {
   margin: 5px 10px;
 }
 
-.header-things {
-  display: flex;
-  justify-content: center;
+#clearList {
+  margin: 40px 0;
 }
+
+.task-list-box {
+  margin: -40px 0;
+}
+
 
 .error {
   color: red;

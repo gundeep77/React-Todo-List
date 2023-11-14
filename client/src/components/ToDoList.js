@@ -9,6 +9,7 @@ function ToDoList() {
   const [tempTaskId, setTempTaskId] = useState(undefined);
   const [updatedStatus, setUpdatedStatus] = useState(undefined);
   const [showCancelEdit, setShowCancelEdit] = useState(false);
+  // const [showClearList, setShowClearList] = useState(undefined);
   let taskList = null;
 
   useEffect(() => {
@@ -87,6 +88,7 @@ function ToDoList() {
     setCount(count + 1);
     setAddOrEdit("Add new task");
     setShowCancelEdit(false);
+    // setShowClearList(false);
     document.getElementById("newTask").value = "";
   };
 
@@ -101,10 +103,10 @@ function ToDoList() {
   const handleStatusChange = async (taskId) => {
     let updatedTask;
     taskData.forEach((task) => {
-      if (task._id === taskId){
-         task.completed = !task.completed;
-         updatedTask = task
-        };
+      if (task._id === taskId) {
+        task.completed = !task.completed;
+        updatedTask = task;
+      }
     });
     await axios.put(`/todoList/${taskId}`, updatedTask);
     setCount(count + 1);
@@ -128,14 +130,14 @@ function ToDoList() {
           />
         </div>
         {task.completed ? (
-          <div className="task-content"><s>{task.task}</s></div>
-        ) : (
           <div className="task-content">
-            {task.task}
+            <s>{task.task}</s>
           </div>
+        ) : (
+          <div className="task-content">{task.task}</div>
         )}
         <div className="task-date">{task.addedDate}</div>
-        <div className="all-buttons">
+        <div>
           <button
             className="edit-task"
             onClick={() => handleEditTask(task._id)}
@@ -161,7 +163,9 @@ function ToDoList() {
     <table className="tasks-table">
       <tbody>
         <tr>
-          <td>{taskData.map((task) => buildTask(task))}</td>
+          <div className="task-list-box">
+            <td>{taskData.map((task) => buildTask(task))}</td>
+          </div>
         </tr>
       </tbody>
     </table>
@@ -195,9 +199,13 @@ function ToDoList() {
             <></>
           )}
         </form>
-        <button id="clearList" onClick={handleDeleteAll}>
-          Clear List
-        </button>
+        {taskData.length ? (
+          <button id="clearList" onClick={handleDeleteAll}>
+            Clear List
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
       <br />
       <br />
