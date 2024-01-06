@@ -9,7 +9,6 @@ function ToDoList() {
   const [tempTaskId, setTempTaskId] = useState(undefined);
   const [updatedStatus, setUpdatedStatus] = useState(undefined);
   const [showCancelEdit, setShowCancelEdit] = useState(false);
-  // const [showClearList, setShowClearList] = useState(undefined);
   let taskList = null;
 
   useEffect(() => {
@@ -34,7 +33,7 @@ function ToDoList() {
             completed: updatedStatus,
           })
           .then(() => {
-            setCount(count + 1);
+            setCount(count => count + 1);
             setNewTask("");
             document.getElementById("newTask").value = "";
             setAddOrEdit("Add new task");
@@ -49,7 +48,7 @@ function ToDoList() {
         await axios
           .post("/todoList", { task: event.target[0].value })
           .then(() => {
-            setCount(count + 1);
+            setCount(count => count + 1);
             setNewTask("");
             document.getElementById("newTask").value = "";
           })
@@ -68,24 +67,24 @@ function ToDoList() {
       }
     });
     setShowCancelEdit(true);
-    setCount(count + 1);
+    setCount(count => count + 1);
     setTempTaskId(taskId);
     setAddOrEdit("Edit task");
   };
 
   const handleNewTaskChange = (event) => {
     if (!event.target.value.trim().length) {
-      setCount(count + 1);
+      setCount(count => count + 1);
       setNewTask("");
     } else {
-      setCount(count + 1);
+      setCount(count => count + 1);
       setNewTask(event.target.value);
     }
   };
 
   const handleDeleteAll = async () => {
     await axios.delete("/todoList");
-    setCount(count + 1);
+    setCount(count => count + 1);
     setAddOrEdit("Add new task");
     setShowCancelEdit(false);
     // setShowClearList(false);
@@ -94,7 +93,7 @@ function ToDoList() {
 
   const handleDeleteTask = async (taskId) => {
     await axios.delete(`/todoList/${taskId}`);
-    setCount(count + 1);
+    setCount(count => count + 1);
     setAddOrEdit("Add new task");
     setShowCancelEdit(false);
     document.getElementById("newTask").value = "";
@@ -109,7 +108,7 @@ function ToDoList() {
       }
     });
     await axios.put(`/todoList/${taskId}`, updatedTask);
-    setCount(count + 1);
+    setCount(count => count + 1);
   };
 
   const handleCancelEdit = () => {
@@ -163,9 +162,7 @@ function ToDoList() {
     <table className="tasks-table">
       <tbody>
         <tr>
-          <div className="task-list-box">
             <td>{taskData.map((task) => buildTask(task))}</td>
-          </div>
         </tr>
       </tbody>
     </table>

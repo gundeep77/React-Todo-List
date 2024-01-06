@@ -6,7 +6,7 @@ import ToDoList from "./components/ToDoList.js";
 function App() {
   return (
     <div style={{marginTop: "50px"}}>
-      <h1>Techolution's Todo List</h1>
+      <h1>Crazy Todo List</h1>
       {/* <Users /> */}
       <ToDoList />
     </div>
